@@ -1,9 +1,8 @@
 # coding: utf-8
-require 'sinatra/base'
-require 'sinatra/json'
 require 'sinatra/reloader'
 require 'data_mapper'
 require_relative 'word'
+require 'erb'
 
 DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, 'postgres://vagrant:vagrant@localhost/myapp')
@@ -15,37 +14,15 @@ class MainApp < Sinatra::Base
   end
 
   get '/words' do
-    json(Word.all)
+    @tweet = Word.all
+    erb :index
   end
-  get '/words/:id' do
-    id = params[:id]
-    word = Word.get(id)
-    if word.nil?
-      json(error: "id:#{id} is not found.")
-    else
-      json(Word)
-    end
-  end
+
   post '/words' do
-    Word.create(msg: request.body.gets).id.to_json
+    Word.create(msg: params[:message])
+    @tweet = Word.all
+    erb :index
   end
-  put '/words/:id' do
-    id = params[:id]
-    word = Word.get(id)
-    if word.nil?
-      json(false)
-    else 
-      word.update(msg: request.body.gets)
-      json(true)
-    end
-  end
-  delete '/words/:id' do
-    id = params[:id]
-    word = Word.get(id)
-    if word.nil?
-      json(false)
-    else
-      json(word.destroy)  
-    end
-  end
+
 end
+

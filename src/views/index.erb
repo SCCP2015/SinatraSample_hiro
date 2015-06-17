@@ -1,0 +1,14 @@
+<h2>Twitter()</h2>
+<form method="post" action="/words">
+  <!--<p><input type="text" name="text" size="50"></p>-->
+  <p><textarea id="text" name="message" cols="40" rows="4" maxlength="20"></textarea></p>
+  <p>
+  <input type="submit" value="submit">
+  <input type="reset" value="reset">
+  </p>
+  <p>
+    <% @tweet.reverse_each do |x| %>
+      <%= x[:msg] %><br>
+    <% end %>
+  </p>
+</form>
