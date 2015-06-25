@@ -6,6 +6,7 @@ class Word
 
   property :id, Serial
   property :msg, String
+  property :user, String
 
 end
 

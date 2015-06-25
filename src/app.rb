@@ -13,13 +13,13 @@ class MainApp < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  get '/words' do
+  get '/' do
     @tweet = Word.all
     erb :index
   end
 
-  post '/words' do
-    Word.create(msg: params[:message])
+  post '/' do
+    Word.create(msg: params[:message], user: params[:username])
     @tweet = Word.all
     erb :index
   end
